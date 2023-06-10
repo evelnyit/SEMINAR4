@@ -10,8 +10,23 @@ create_maze(int n): Initializes the maze, generates the maze using the depth-fir
 main(): The main function of the program. It handles user input, moves the player within the maze, checks if the player has reached the goal, and prints the maze after each move.
 
 Prompts used are:
-Act as a senior C programmer, expert in code quality and best practices. Write the maze runner game in done in C using the Depth First algorithm to make a randomized maze. 
+"Act as a senior C programmer, expert in code quality and best practices. Write the maze runner game in done in C using the Depth First algorithm to make a randomized maze. 
 The code must meet the following points:
 - The game ends when the player reaches the end  
-- There must be a path to complete the game
+- There must be a path to complete the game"
 
+ChatGPT provided a code that compiled correctly, but there were some bugs: Player P and goal G were surrounded by walls. Therefore, the player could not move and the goal could not be reached, i.e. the game never ended. I wrote the following instruction to fix this:
+
+"There is an error in the create_maze() and dfs() function. Player P is between walls, so no movement is possible. The same is true for goal G, it is not reachable. "
+
+To solve these issues, ChatGPT provided the following modifications:
+
+In the create_maze() function, the line 'player = point(0, 0);' was corrected to set the player's starting coordinates to (1, 1) as follows:
+player.x = 1;
+player.y = 1;
+
+In the dfs() function, made the goal (G) accessible by carving paths around it. These lines were added to clear cells adjacent to the goal:
+maze[n - 2][n - 3] = PATH;
+maze[n - 3][n - 2] = PATH;
+
+These modifications allowed the player to start in an open space and ensure that the goal is reachable. 
